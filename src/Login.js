@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import firebase from "./firebase.js";
+import LoginCreate from "./LoginCreate.js";
+
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
@@ -75,6 +78,7 @@ class Login extends Component {
                     <input type="password" value={this.state.password} onChange={this.onChange} name="password"/>
 
                     <button>Login</button>
+
                 </form>
 
                 <div>
@@ -82,9 +86,13 @@ class Login extends Component {
                 <p>{this.state.user ? <button onClick={this.logout}>Log Out</button> : <button onClick={this.login}>Log In</button>}</p>
                 </div>
                 {/* update below with link to sign-up page. */}
+                <Router>
                 <div>
-                    <a href="">Create a new account</a>
+                    <Link to="/login/create">Create a new account</Link>
+                    <Route path="/login/:create" component={LoginCreate} />
                 </div>
+                    
+                </Router>
 
             </div>
 
