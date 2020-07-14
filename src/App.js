@@ -35,6 +35,7 @@ class App extends Component {
         {/* <Login /> */}
         <Route exact path="/login" component={Login} />
         {/* <Route path="/login/create" component={LoginCreate} /> */}
+        <Route path="/create" component={LoginCreate} />
       </div>
       </Router>
     );

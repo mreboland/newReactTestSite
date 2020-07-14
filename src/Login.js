@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import firebase from "./firebase.js";
 import LoginCreate from "./LoginCreate.js";
 
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const provider = new firebase.auth.GoogleAuthProvider();
 const auth = firebase.auth();
@@ -63,6 +63,12 @@ class Login extends Component {
         })
     }
 
+    
+    goLogin = (e) => {
+        e.preventDefault();
+        this.props.history.push("/create")
+    }
+
 
 
     render() {
@@ -72,7 +78,7 @@ class Login extends Component {
 
                 <form action="submit">
                     <label htmlFor="email">email</label>
-                    <input type="email" value={this.state.email} onChange={this.onChange} name="userName"/>
+                    <input type="email" value={this.state.email} onChange={this.onChange} name="email"/>
 
                     <label htmlFor="password">Password</label>
                     <input type="password" value={this.state.password} onChange={this.onChange} name="password"/>
@@ -86,14 +92,10 @@ class Login extends Component {
                 <p>{this.state.user ? <button onClick={this.logout}>Log Out</button> : <button onClick={this.login}>Log In</button>}</p>
                 </div>
                 {/* update below with link to sign-up page. */}
-                <Router>
                 <div>
-                    <Link to="/login/create">Create a new account</Link>
-                    <Route path="/login/:create" component={LoginCreate} />
-                </div>
-                    
-                </Router>
+                    <a href="" onClick={this.goLogin}>Create a new account</a>
 
+                </div>
             </div>
 
         )
