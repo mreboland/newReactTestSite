@@ -14,9 +14,17 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      
+      user: null,
     }
   }
+
+  loginDetailPass = (param) => {
+    for (let [key, value] of Object.entries(param)) {
+      this.setState({
+        [key]: value,
+      });
+    }
+  };
 
   
 
@@ -33,10 +41,23 @@ class App extends Component {
         </nav>
         <h1>Welcome to my test site!</h1>
         {/* <Login /> */}
-        <Route exact path="/login" component={Login} />
+        {/* <Route exact path="/login" component={Login} /> */}
+          <Route
+            exact
+            path="/login"
+            render={(props) => (
+              <Login
+                loginCheck={this.loginDetailPass}
+                // globalState={this.state}
+                {...props}
+              />
+            )}
+          />
         {/* <Route path="/login/create" component={LoginCreate} /> */}
         <Route path="/create" component={LoginCreate} />
       </div>
+
+      
       </Router>
     );
 
