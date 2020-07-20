@@ -33,9 +33,9 @@ class Login extends Component {
                 this.setState({
                     user
                 });
-                // this.props.loginCheck(this.state)
-                console.log(user.uid)
-                console.log(user.email)
+
+                // console.log(user.uid)
+                // console.log(user.email)
             });
     }
     
@@ -46,7 +46,7 @@ class Login extends Component {
                 this.setState({
                     user: null
                 });
-                // this.props.loginCheck(this.state)
+                this.props.loginCheck(this.state)
                 
             });
     }

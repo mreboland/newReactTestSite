@@ -25,13 +25,13 @@ class App extends Component {
     });
   }
 
-  // loginDetailPass = (param) => {
-  //   for (let [key, value] of Object.entries(param)) {
-  //     this.setState({
-  //       [key]: value,
-  //     });
-  //   }
-  // };
+  loginDetailPass = (param) => {
+    for (let [key, value] of Object.entries(param)) {
+      this.setState({
+        [key]: value,
+      });
+    }
+  };
 
   
 
