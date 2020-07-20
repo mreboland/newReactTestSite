@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import firebase from "./firebase.js";
+import firebase, { auth, provider } from './firebase.js';
 import LoginCreate from "./LoginCreate.js";
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-const provider = new firebase.auth.GoogleAuthProvider();
-const auth = firebase.auth();
+// const provider = new firebase.auth.GoogleAuthProvider();
+// const auth = firebase.auth();
 
 
 class Login extends Component {
@@ -33,7 +33,7 @@ class Login extends Component {
                 this.setState({
                     user
                 });
-                this.props.loginCheck(this.state)
+                // this.props.loginCheck(this.state)
                 console.log(user.uid)
                 console.log(user.email)
             });
@@ -46,7 +46,7 @@ class Login extends Component {
                 this.setState({
                     user: null
                 });
-                this.props.loginCheck(this.state)
+                // this.props.loginCheck(this.state)
                 
             });
     }

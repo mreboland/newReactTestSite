@@ -2,6 +2,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import 'firebase/database';
 
 
 // Initialize Firebase
@@ -18,5 +19,7 @@ const config = {
 firebase.initializeApp(config);
 // firebase.initializeApp(firebaseConfig);
 
-// this exports the CONFIGURED version of firebase
+export const provider = new firebase.auth.GoogleAuthProvider();
+export const auth = firebase.auth();
+
 export default firebase;

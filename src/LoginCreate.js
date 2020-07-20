@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import firebase from "./firebase.js";
+import firebase, { auth, provider } from './firebase.js';
 
 class LoginCreate extends Component {
     constructor() {
@@ -22,6 +22,14 @@ class LoginCreate extends Component {
 
         // decide where after account creation we redirect the user to.
         // this.props.history.push("/create")
+
+
+        this.setState({
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+        })
     }
 
     onChange = async (event) => {
@@ -34,14 +42,7 @@ class LoginCreate extends Component {
 
     newAccount = async () => {
         try {
-            const user = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
-            console.log(user.uid)
-
-            const userInfo = {
-                fName: this.state.firstName,
-                lName: this.state.lastName,
-            }
-            this.writeUserData(userInfo);
+            const user = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);            
 
         } catch (error) {
             console.log(error.message)
@@ -49,18 +50,31 @@ class LoginCreate extends Component {
         firebase.auth().onAuthStateChanged(user => {
             if(user) {
                 console.log(user.uid) 
-                console.log(user.email)  }
+                console.log(user.email)
+
+                var newUser = {
+                    name: "Raja",
+                    phone: "779797329",
+                    address: "474 Mercer Drive",
+                    uid: user.uid,
+                    email: user.email
+                }
+                
+                
+                const writeUserData = (user) => {
+                firebase.database().ref('users/' + user.uid).set(user).catch(error => {
+                    console.log(error.message)
+                    });
+                }
+                writeUserData(newUser)
+            }
         })
+
+        
     }
 
-    checkLogIn = () => {
-    }
 
-    writeUserData = (user) => {
-        firebase.database().ref('users/' + user.uid).set(user).catch(error => {
-            console.log(error.message)
-        });
-    }
+
 
     render() {
         return(
@@ -70,7 +84,7 @@ class LoginCreate extends Component {
                 <form action="submit" onSubmit={this.onSubmit}>
                     <fieldset>
                         <label htmlFor="firstName">First Name</label>
-                        <input type="text" value={this.state.name} onChange={this.onChange} name="firstName" />
+                        <input type="text" value={this.state.firstName} onChange={this.onChange} name="firstName" />
 
                         <label htmlFor="lastName">Last Name</label>
                         <input type="text" value={this.state.lastName} onChange={this.onChange} name="lastName" />

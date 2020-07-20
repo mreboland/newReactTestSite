@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import Login from "./Login.js";
 import LoginCreate from "./LoginCreate.js";
-import firebase from "./firebase.js";
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-// import { auth } from 'firebase';
+import firebase, { auth, provider } from './firebase.js';
 
 
 
@@ -18,13 +17,21 @@ class App extends Component {
     }
   }
 
-  loginDetailPass = (param) => {
-    for (let [key, value] of Object.entries(param)) {
-      this.setState({
-        [key]: value,
-      });
-    }
-  };
+  componentDidMount() {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+      }
+    });
+  }
+
+  // loginDetailPass = (param) => {
+  //   for (let [key, value] of Object.entries(param)) {
+  //     this.setState({
+  //       [key]: value,
+  //     });
+  //   }
+  // };
 
   
 
