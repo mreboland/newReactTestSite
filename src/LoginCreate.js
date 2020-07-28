@@ -10,7 +10,8 @@ class LoginCreate extends Component {
             phone: "",
             email: "",
             password: "",
-            user: null
+            user: null,
+            image: {}
         }
     }
 
@@ -27,13 +28,16 @@ class LoginCreate extends Component {
         // this.props.history.push("/create")
 
         // this set state probably needs to be moved, seems to interfere with data.
-        this.setState({
-            fullName: "",
-            address: "",
-            phone: "",
-            email: "",
-            password: "",
-        })
+        setTimeout( () => {
+            this.setState({
+                fullName: "",
+                address: "",
+                phone: "",
+                email: "",
+                password: "",
+                image: {},
+            })
+        }, 1000)
     }
 
     onChange = async (event) => {
@@ -44,13 +48,34 @@ class LoginCreate extends Component {
         })
     }
 
+    // function allows us to target the image and save it to file. We save it to state so it can be accessed in the newAccount function in order to upload it to the server.
+    uploadImage = (e) => {
+        const file = e.target.files[0];
+        console.log(file);
+
+        this.setState({
+            image: file
+        })
+    }
+
     newAccount = async () => {
         try {
-            const user = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
+            // const user = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
+
+            const user = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(auth => {
+                // allows a user to upload a profile image. Need to expand on this to include documents when user is logged in (create new Class Component to feed logged in user data)
+                firebase
+                    .storage()
+                    .ref("users")
+                    .child(auth.user.uid + "/profile.jpg")
+                    .put(this.state.image);
+            })
             // set user to state so we can check if logged in.
             this.setState({
                 user
-            })            
+            })
+
+            // here we need to pass the user logged in to another Class component in order to feed the user info to the logged in user. the below .auth().onAuth... is how we check if user is logged in, and if so, grab the data.
 
         } catch (error) {
             console.log(error.message)
@@ -67,8 +92,8 @@ class LoginCreate extends Component {
                 // console.log(user.uid) 
                 // console.log(user.email)
 
-                //test for new user to tie User info to UID
-                var newUser = {
+                //test for new user to tie User info to UID, issue with empty states on db, could be due to state clearing before the below runs (async)
+                const newUser = {
                     name: this.state.fullName,
                     phone: this.state.phone,
                     address: this.state.address,
@@ -118,6 +143,11 @@ class LoginCreate extends Component {
 
                     <label htmlFor="password">Password</label>
                     <input type="password" value={this.state.password} onChange={this.onChange} name="password" />
+                    </fieldset>
+
+                    <fieldset>
+                        <label htmlFor="file">Upload File</label>
+                        <input type="file" onChange={this.uploadImage} name="email" />
                     </fieldset>
 
 

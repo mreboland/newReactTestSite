@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Login from "./Login.js";
 import LoginCreate from "./LoginCreate.js";
+import UserPortal from "./UserPortal.js";
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import firebase, { auth, provider } from './firebase.js';
@@ -62,6 +63,7 @@ class App extends Component {
           />
         {/* <Route path="/login/create" component={LoginCreate} /> */}
         <Route path="/create" component={LoginCreate} />
+        <Route path="/portal" component={UserPortal} />
       </div>
 
       
